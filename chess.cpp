@@ -19,7 +19,6 @@ using namespace std;
 
 vector<vector<string>> board(8,vector<string>(8));
 unordered_map<string,vector<pair<int,int>>> pieces;
-//unordered_map<pair<int,int>,int> map;
 string player;
 int counter =0;
 vector<vector<int>> allMoves;
@@ -50,9 +49,7 @@ void sortMovesMVVLVA()
 		{
 			int MVVLVA_row = pieceIndex[board[allMoves[i][2]][allMoves[i][3]][1]];//victim
 			int MVVLVA_col = pieceIndex[board[allMoves[i][0]][allMoves[i][1]][1]];//attacker
-			//cout << pieceIndex[board[allMoves[i][2]][allMoves[i][3]][1]] << " " << board[allMoves[i][2]][allMoves[i][3]] << endl;
-			//cout << pieceIndex[board[allMoves[i][0]][allMoves[i][1]][1]] << " " << board[allMoves[i][0]][allMoves[i][1]] << endl;
-			//cout << MVVLVA[MVVLVA_row][MVVLVA_col] << endl;
+			
 			sortedMoves.push_back({MVVLVA[MVVLVA_row][MVVLVA_col],allMoves[i][0],allMoves[i][1],allMoves[i][2],allMoves[i][3]});
 		}
 	}
@@ -74,7 +71,7 @@ void initialize()
 {
 	
 	string temp; temp.push_back(player[0]);
-	//cout << "temp: " << temp << endl;
+
 	string opp = temp=="w" ? "b" : "w";
 	board[0][0]=opp+"R"; board[0][1]=opp+"k"; board[0][2]=opp+"B"; board[0][5]=opp+"B"; board[0][6]=opp+"k"; board[0][7]=opp+"R";
 	board[7][0]=temp+"R"; board[7][1]=temp+"k"; board[7][2]=temp+"B";  board[7][5]=temp+"B"; board[7][6]=temp+"k"; board[7][7]=temp+"R";
@@ -110,16 +107,6 @@ void initialize()
 			else board[i][j]="  ";
 		}
 	}
-	
-	/*for (auto thing: pieces)
-	{
-		cout << thing.first << endl;
-		for (int i = 0; i < thing.second.size(); i++)
-		{
-			cout << thing.second[i].first << "," << thing.second[i].second << endl;
-		}
-		//cout << thing.first << " " << thing.second.first <<"," << thing.second.second << endl;
-	}*/
 	return;
 }
 
@@ -134,15 +121,6 @@ void boardState()
 		}
 		cout << endl;
 	}
-	/*for (auto thing: pieces)
-	{
-		cout << thing.first << endl;
-		for (int i = 0; i < thing.second.size(); i++)
-		{
-			cout << thing.second[i].first << "," << thing.second[i].second << endl;
-		}
-		//cout << thing.first << " " << thing.second.first <<"," << thing.second.second << endl;
-	}*/
 	return;
 }
 
@@ -166,8 +144,6 @@ void backTrack(int i, int j, int movex, int movey, string temp, string temp2)
 
 void pawnMoves(int i, int j, char c)
 {
-	//cout << "i: " << i << "j: " << j << endl;
-
 	char opp;
 	if (c=='w') opp='b';
 	else opp='w';
@@ -223,7 +199,6 @@ void knightMoves(int i, int j, char c)
 		int y1 = j+knightMove[a].second;
 		int x2= i+knightMove[a].second;
 		int y2 = j+knightMove[a].first;
-		//cout << x1 << " " << y1 << endl;
 		if (x1>=0 && x1 < 8 && y1>=0 && y1 < 8) if (board[x1][y1]=="  "||board[x1][y1][0]==opp) allMoves.push_back({i,j,x1,y1});
 		if (x2>=0 && x2 < 8 && y2>=0 && y2 < 8) if (board[x2][y2]=="  "||board[x2][y2][0]==opp) allMoves.push_back({i,j,x2,y2});
 	}
@@ -234,9 +209,6 @@ void knightMoves(int i, int j, char c)
 void bishopMoves(int i, int j, char c)
 {
 	getMoves(i,j,c,bishopMove,allowed,1);
-	//for (int a = 0; a < coord.size(); a++)
-	//	cout << coord[a].first << " " << coord[a].second << endl;
-	//sort(coord.begin(),coord.end());
 	return;
 }
 
@@ -244,7 +216,6 @@ void bishopMoves(int i, int j, char c)
 void rookMoves(int i, int j, char c)
 {
 	getMoves(i,j,c,rookMove,allowed,1);
-	//sort(coord.begin(),coord.end());
 	return;
 }
 
@@ -252,8 +223,6 @@ void kingMoves(int i, int j, char c)
 {
 	bishopMoves(i,j,c);
 	rookMoves(i,j,c);
-	//getMoves(i,j,c,kingMove,allowed,1);
-	//sort(coord.begin(),coord.end());
 	return;
 }
 
@@ -261,9 +230,6 @@ void queenMoves(int i, int j, char c)
 {
 	bishopMoves(i,j,c);
 	rookMoves(i,j,c);
-	//for (int a = 0; a < coord1.size(); a++)coord.push_back(coord1[a]);
-	//for (int a = 0; a < coord2.size(); a++)coord.push_back(coord2[a]);
-	//sort(coord.begin(),coord.end());
 	return;
 }
 /*
@@ -353,7 +319,6 @@ void getMoves(int i, int j, char c, vector<pair<int,int>> move, vector<bool> all
 	if (c=='w') opp='b';
 	else opp='w';
 	
-	//cout << "p: " << p << endl;
 	while (true)
 	{
 		int len = allMoves.size();
@@ -372,10 +337,6 @@ void getMoves(int i, int j, char c, vector<pair<int,int>> move, vector<bool> all
 					else if (board[x][y][0]==opp)
 					{
 						allMoves.push_back({i,j,x,y});
-						//int MVVLVA_row = pieceIndex[board[x][y][1]];//victim
-						//int MVVLVA_col = pieceIndex[board[i][j][1]];//attacker
-						//cout << MVVLVA[MVVLVA_row][MVVLVA_col] << endl;
-						//captureMovesScored.push_back({MVVLVA[MVVLVA_row][MVVLVA_col],x,y});
 						allowed[a]=false;
 					}
 					else 
@@ -386,9 +347,6 @@ void getMoves(int i, int j, char c, vector<pair<int,int>> move, vector<bool> all
 		counter++;
 		if (allMoves.size()==len || board[i][j][1]=='K') break;
 	}
-	
-	//getchar();
-	//sort(coord.begin(),coord.end());
 	return;
 }
 
@@ -519,10 +477,6 @@ int calculateScore()
 	return val;
 
 }
-
-//sort moves by a score
-//p x Q
-//Q x p
 
 int minimax(int depth, int maxPlayer, int alpha, int beta)
 {
